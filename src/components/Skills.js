@@ -1,132 +1,129 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { MdAddCircleOutline, MdEdit, MdClose, MdOutlineCancel } from 'react-icons/md';
+import { MdAddCircleOutline, MdClose } from 'react-icons/md';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { ImCheckmark, ImCross } from 'react-icons/im'
+import ProgressBar from 'react-bootstrap/ProgressBar';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../state/index';
 
 function Skills() {
-
-  const skills = useSelector(state => state.skills)
+  const skills = useSelector(state => state.skills); // Ensure skills contain both skill name and progress
   const dispatch = useDispatch();
-  const {addSkill, removeSkill} = bindActionCreators(actionCreators, dispatch);
+  const { addSkill, removeSkill, updateSkillProgress } = bindActionCreators(actionCreators, dispatch);
 
-  // const [skills, setSkills] = useState([]);
   const [show, setShow] = useState(false);
-  const [Alert, setAlert] = useState(false);
-  const [deleteId, setDeleteId] = useState(null);
-
-  const handleClose = () => {
-    setShow(false);
-    setValidated(false);
-  }
-  const handleShow = () => setShow(true);
-  const [isEdit, setIsEdit] = useState(false);
+  const [input, setInput] = useState('');
+  const [progress, setProgress] = useState(0);  // Track progress for new skills
   const [validated, setValidated] = useState(false);
 
-  const [input, setInput] = useState("")
-  const handleInput = (e) => {
-    setInput(e.target.value)
-  }
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const handleInput = (e) => setInput(e.target.value);
+  const handleProgressChange = (e) => setProgress(e.target.value);  // Handle progress slider change
 
   const handleSkills = (e) => {
     e.preventDefault();
     const valid = e.currentTarget;
     if (!valid.checkValidity()) {
       setValidated(true);
+    } else {
+      addSkill({ skill: input, progress: Number(progress) }); // Add new skill with progress
+      setInput('');
+      setProgress(0); // Reset progress
     }
-    else {
-      setIsEdit(true);
-      addSkill(input)
-      // setSkills([...skills, input]);
-      setInput("");
-    }
-  }
+  };
 
-  const handleAlertClose = () => setAlert(false);
-  const handleAlert = (id) => {
-    setDeleteId(id)
-    setAlert(true);
-  }
   const handleDelete = (id) => {
-    removeSkill(id)
-    // skills.splice(id, 1);
-    // setSkills(skills);
-    setAlert(false);
-    // if (skills.length === 0) {
-    //   setIsEdit(false);
-    // }
-  }
-  useEffect(()=>{
-    if (skills.length === 0) {
-      setIsEdit(false);
-    }
-  },[skills])
+    removeSkill(id);
+  };
+
+  const getProgressBarColor = (progress) => {
+    if (progress < 30) return 'bg-danger';
+    if (progress < 60) return 'bg-warning';
+    return 'bg-success';
+  };
+
+  useEffect(() => {
+    // Logic to update if skills are empty
+  }, [skills]);
 
   return (
     <Row className="justify-content-center mt-2">
       <Col md={8} sm={12} className="d-flex justify-content-between align-items-center bg-light rounded">
         <h5 className="m-0">Skills</h5>
-        {!isEdit && <MdAddCircleOutline size={30} className="rounded edit" onClick={handleShow} />}
-        {isEdit && <MdEdit size={30} className="rounded edit" onClick={handleShow} />}
+        <MdAddCircleOutline size={30} className="rounded edit" onClick={handleShow} />
       </Col>
       <Col md={8} sm={12}>
         <Row className="border-bottom pt-3">
           <Col md={12} className="d-flex flex-wrap">
-            {
-              skills.map((items, id) => {
-                return (
-                  <p className="technology rounded" key={id}>{items}</p>
-                )
-              })
-            }
-
-
+            {skills.map((skillObj, id) => (
+              <div key={id} className="mb-3 w-100">
+                <ProgressBar
+                  now={skillObj.progress}
+                  label={`${skillObj.skill} - ${skillObj.progress}%`}
+                  variant={getProgressBarColor(skillObj.progress)}  // Dynamic color based on progress
+                  style={{
+                    height: '40px',  // Increased height for better visibility
+                    borderRadius: '5px',  // Rounded corners
+                    color: '#fff',  // White text on the progress bar
+                    fontSize: '14px',  // Smaller font size for the label
+                    display: 'flex',  // Flexbox to center the skill inside the bar
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                />
+              </div>
+            ))}
           </Col>
         </Row>
-
       </Col>
+
       <Modal show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Header>
-          <Modal.Title>Skills</Modal.Title>
+          <Modal.Title>Add Skill</Modal.Title>
           <MdClose size={30} className="rounded edit" onClick={handleClose} />
         </Modal.Header>
 
         <Modal.Body>
-          <Form noValidate validated={validated} className="d-flex align-item-start mb-2" onSubmit={handleSkills}>
-            <Form.Group className="">
-              <Form.Control required type="text" size="sm" placeholder="Enter Skill" value={input} onChange={handleInput} />
+          <Form noValidate validated={validated} onSubmit={handleSkills}>
+            <Form.Group className="mb-3">
+              <Form.Control
+                required
+                type="text"
+                placeholder="Enter Skill"
+                value={input}
+                onChange={handleInput}
+              />
             </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Skill Progress</Form.Label>
+              <Form.Control
+                type="range"
+                min="0"
+                max="100"
+                value={progress}
+                onChange={handleProgressChange}
+                style={{
+                  height: '20px', // Increased height of the range slider
+                  borderRadius: '5px', // Rounded corners for the range input
+                }}
+              />
+              <Form.Text>{`${progress}%`}</Form.Text>
+            </Form.Group>
+
             <button type="submit" className="rounded edit m-0 mx-2">
               Add Skill
             </button>
           </Form>
-          <hr></hr>
-          <div className="d-flex flex-wrap">
-            {
-              skills.map((items, id) => {
-                return (
-                  <p key={id} className="technology rounded ">{items} &nbsp; <MdOutlineCancel className="delete rounded" onClick={() => { handleAlert(id) }} /></p>
-                )
-              })
-            }
-          </div>
-        </Modal.Body>
-
-      </Modal>
-      <Modal show={Alert} onHide={handleAlertClose} className="text-center" size="sm" centered>
-        <Modal.Body>
-          <h4>Are you sure ?</h4>
-          <ImCheckmark size={30} className="rounded edit" onClick={() => { handleDelete(deleteId) }} />
-          <ImCross size={25} className="rounded edit" onClick={handleAlertClose} />
         </Modal.Body>
       </Modal>
     </Row>
-  )
+  );
 }
 
-export default Skills
+export default Skills;
