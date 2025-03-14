@@ -1,35 +1,85 @@
-## Resume Builder | React
+Here's a clean and professional `README.md` for your project without icons or images. Let me know if you want any modifications!  
 
-### About
+---
 
-Resume-Builder is single page web application created in React Library.
+### Resume Builder
 
-### Resume 1.0 (using jspdf)
+**Author:** Muzamil Ahmad  
+**GitHub Repository:** [Resume Builder](https://github.com/Muzamil-Ahmad-dev/Resume-builder)  
+**Live Demo:** [Resume Builder Live](https://muzamil-ahmad-dev.github.io/)  
 
-<img src="https://github.com/Yagnik-Gohil/Resume-Builder/blob/master/public/images/1.0.JPG?raw=true" width="250"/>
+## About the Project  
 
-### Resume 2.0 (using html-pdf)
+Resume Builder is a web application that allows users to create, customize, and download their resumes in PDF format. It features an intuitive UI for adding personal information, skills, experience, and education details.  
 
-<img src="https://github.com/Yagnik-Gohil/Resume-Builder/blob/master/public/images/2.0.JPG?raw=true" width="250"/>
+## Features  
 
-### Technologies
+- User-friendly interface to enter and edit resume details  
+- Live preview of the resume layout  
+- Ability to upload profile pictures  
+- Download resume as a PDF  
+- Save and manage multiple resume sections  
 
-- [React](https://reactjs.org/) with Hooks
-- [React-Bootstrap](https://react-bootstrap.github.io/)
-- [React-Redux](https://react-redux.js.org/)
+## Installation  
 
-### Icons
-- [React-Icons](https://react-icons.github.io/react-icons)
+To run the project locally, follow these steps:  
 
-Feel free to use the source to create your resume.<br/>
-Basic knowledge of HTML5, CSS and React is sufficient if you want to customize the resume for your requirements.
+1. Clone the repository:  
+   ```bash
+   git clone https://github.com/Muzamil-Ahmad-dev/Resume-builder.git
+   cd Resume-builder
+   ```
+2. Install dependencies:  
+   ```bash
+   npm install
+   ```
+3. Start the development server:  
+   ```bash
+   npm start
+   ```
 
-### How to use
+The application will be available at `http://localhost:3000/`.  
 
-Clone this repository
+## Deployment  
 
-Run `npm install` in `/resume-builder` and in `/resume-builder/backend` to install dependency.
+This project is deployed using GitHub Pages. If you want to redeploy, follow these steps:  
 
-Run `npm start` in `/resume-builder` and in `/resume-builder/backend` to run your local copy in browser.
+1. Update the `homepage` field in `package.json`:  
+   ```json
+   "homepage": "https://muzamil-ahmad-dev.github.io/Resume-builder"
+   ```
+2. Run the deployment commands:  
+   ```bash
+   npm run build
+   npm run deploy
+   ```
+3. Your application will be updated at: [Live Demo](https://muzamil-ahmad-dev.github.io/)  
 
-![](https://visitor-badge.glitch.me/badge?page_id=Yagnik-Gohil.Resume-Builder)
+## Technologies Used  
+
+- React.js  
+- Redux for state management  
+- Bootstrap for styling  
+- jsPDF for PDF generation  
+- GitHub Pages for deployment  
+
+## Contribution  
+
+If you'd like to contribute to this project:  
+
+1. Fork the repository  
+2. Create a new branch (`git checkout -b feature-name`)  
+3. Make your changes and commit (`git commit -m "Added a new feature"`)  
+4. Push to the branch (`git push origin feature-name`)  
+5. Open a Pull Request  
+
+## Contact  
+
+For any inquiries, feel free to reach out:  
+
+- **Email:** [muzamil.ahmad@example.com](mailto:muzamil.ahmad@example.com)  
+- **GitHub:** [Muzamil Ahmad](https://github.com/Muzamil-Ahmad-dev)  
+
+---
+
+This README provides a professional overview of your project. Let me know if you want any modifications! 🚀
