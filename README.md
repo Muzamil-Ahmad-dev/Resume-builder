@@ -1,12 +1,10 @@
-Here's a clean and professional `README.md` for your project without icons or images. Let me know if you want any modifications!  
 
----
 
-### Resume Builder
+### Resume Builder  
 
 **Author:** Muzamil Ahmad  
 **GitHub Repository:** [Resume Builder](https://github.com/Muzamil-Ahmad-dev/Resume-builder)  
-**Live Demo:** [Resume Builder Live](https://muzamil-ahmad-dev.github.io/)  
+**Live Demo:** [Resume Builder Live](https://muzamil-ahmad-dev.github.io/Resume-builder/)  
 
 ## About the Project  
 
@@ -53,7 +51,7 @@ This project is deployed using GitHub Pages. If you want to redeploy, follow the
    npm run build
    npm run deploy
    ```
-3. Your application will be updated at: [Live Demo](https://muzamil-ahmad-dev.github.io/)  
+3. Your application will be updated at: [Live Demo](https://muzamil-ahmad-dev.github.io/Resume-builder/)  
 
 ## Technologies Used  
 
@@ -82,4 +80,4 @@ For any inquiries, feel free to reach out:
 
 ---
 
-This README provides a professional overview of your project. Let me know if you want any modifications! 🚀
+This README is now complete with your correct live demo link! 🚀 Let me know if you need any changes.
