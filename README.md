@@ -75,7 +75,7 @@ If you'd like to contribute to this project:
 
 For any inquiries, feel free to reach out:  
 
-- **Email:** [muzamil.ahmad@example.com](mailto:muzamil.ahmad@example.com)  
+- **Email:** [muzamilsakhi079@gmail.com](muzamilsakhi079@gmail.com)  
 - **GitHub:** [Muzamil Ahmad](https://github.com/Muzamil-Ahmad-dev)  
 
 ---
