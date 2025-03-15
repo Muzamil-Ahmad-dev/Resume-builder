@@ -1,144 +1,114 @@
-import React, { Fragment } from 'react';
-import { Stack, ProgressBar } from 'react-bootstrap';
-import { BsLinkedin, BsGithub, BsGlobe } from 'react-icons/bs';
-import { GiGraduateCap } from 'react-icons/gi';
-import { HiLocationMarker, HiOfficeBuilding, HiOutlineMail, HiPhone } from 'react-icons/hi';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import axios from 'axios';
-import { saveAs } from 'file-saver';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { BsLinkedin, BsGithub, BsGlobe } from "react-icons/bs";
+import { HiLocationMarker, HiOfficeBuilding, HiOutlineMail, HiPhone } from "react-icons/hi";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import { useSelector } from "react-redux";
 
 function PdfComponent() {
-  const profile = useSelector(state => state.profile) || {};
+  const profile = useSelector((state) => state.profile) || {};
   const name = profile?.name?.split(" ") || ["", ""];
-  const file = useSelector(state => state.file) || '';
-  const about = useSelector(state => state.about) || '';
-  const experienceList = useSelector(state => state.experienceList) || [];
-  const educationList = useSelector(state => state.educationList) || [];
-  const skills = useSelector(state => state.skills) || [];
-
-  const getRandomColor = () => {
-    const colors = ['primary', 'success', 'danger', 'warning', 'info'];
-    return colors[Math.floor(Math.random() * colors.length)];
-  };
-
-  const createAndDownloadPdf = async () => {
-    try {
-      const data = { profile, name, file, about, experienceList, educationList, skills };
-      await axios.post('http://localhost:5000/create-pdf', data);
-      const res = await axios.get('http://localhost:5000/fetch-pdf', { responseType: 'blob' });
-      saveAs(new Blob([res.data], { type: 'application/pdf' }), 'newPdf.pdf');
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-    }
-  };
+  const file = useSelector((state) => state.file) || "";
+  const about = useSelector((state) => state.about) || "";
+  const experienceList = useSelector((state) => state.experienceList) || [];
+  const educationList = useSelector((state) => state.educationList) || [];
+  const skills = useSelector((state) => state.skills) || [];
 
   const printDocument = () => {
-    const input = document.getElementById('divToPrint');
-    html2canvas(input, { scale: 2 }).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgWidth = 210; 
+    const input = document.getElementById("divToPrint");
+    html2canvas(input, { scale: 3 }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const imgWidth = 210;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      pdf.save("download.pdf");
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.save("resume.pdf");
     });
   };
 
-  const GetLinks = () => {
-    const links = [
-      { icon: <HiOutlineMail size={30} />, link: profile.email },
-      { icon: <HiPhone size={30} />, link: profile.contact },
-      { icon: <BsLinkedin size={30} />, link: profile.linkedin },
-      { icon: <BsGithub size={30} />, link: profile.github },
-      { icon: <BsGlobe size={30} />, link: profile.website },
-    ].filter(item => item.link);
-
-    return links.length > 0 ? (
-      links.map((item, id) => (
-        <div className={`d-flex align-items-start bg-${id % 2 ? '3' : '2'} text-white p-3`} key={id}>
-          {item.icon}
-          <span className="mx-2"></span>
-          <p className="m-0">{item.link}</p>
-        </div>
-      ))
-    ) : <p>No contact information available.</p>;
-  };
-
   return (
-    <Fragment>
-      <div className="d-grid col-2 mx-auto mt-4">
-        <button className="btn btn-dark p-2 rounded" onClick={printDocument}>Download Image as PDF</button>
-        <button className="btn btn-dark p-2 rounded mt-2" onClick={createAndDownloadPdf}>Download Version 2.0</button>
-      </div>
+    <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", fontFamily: "Arial, sans-serif" }}>
+      <button onClick={printDocument} style={{ padding: "10px 20px", margin: "10px", fontSize: "16px", backgroundColor: "#007bff", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer" }}>
+        Download PDF
+      </button>
 
-      <div className="container d-flex justify-content-center p-4">
-        <div className="row pdf bg-light" id="divToPrint">
-          <div className="col-md-5 bg-1 p-2 text-center">
-            {file && <img src={file} className="pdf-profile-image" alt="Profile" />}
-            <Stack className="text-center mt-2">
-              <span className="font-weight-bold">{name[0]}</span>
-              <span className="font-weight-light">{name[1]}</span>
-              <p>{profile.tagline || "No tagline available"}</p>
-              <p><HiOfficeBuilding size={20} /> {profile.position || "Position not specified"}</p>
-              <p><HiLocationMarker size={20} /> {profile.location || "Location not specified"}</p>
-            </Stack>
-            <GetLinks />
+      <div id="divToPrint" style={{ width: "800px", backgroundColor: "#fff", display: "flex", border: "1px solid #ddd", boxShadow: "0px 4px 8px rgba(0,0,0,0.1)" }}>
+        {/* Sidebar - 1/3 */}
+        <div style={{ width: "33.33%", backgroundColor: "#2C3E50", color: "#fff", padding: "20px", textAlign: "center" }}>
+          {file && <img src={file} alt="Profile" style={{ width: "80%", borderRadius: "50%", marginBottom: "10px" }} />}
+          <h2 style={{ marginBottom: "5px" }}>{name[0]} {name[1]}</h2>
+          <p style={{ fontStyle: "italic", marginBottom: "10px" }}>{profile.tagline}</p>
+          <p><HiOfficeBuilding /> {profile.position}</p>
+          <p><HiLocationMarker /> {profile.location}</p>
 
-            <h4>Skills</h4>
-            {skills.length > 0 ? (
-              skills.map((item, id) => (
-                <div key={id} className="d-flex flex-column align-items-start">
-                  <ProgressBar
-                    now={item.progress || 0}
-                    label={`${item.skill} - ${item.progress || 0}%`}
-                    variant={getRandomColor()}
-                    style={{ width: "100%", marginBottom: "5%" }}
-                  />
-                </div>
-              ))
-            ) : <p>No skills added.</p>}
+          {/* 🔹 Social Links */}
+          <div style={{ marginTop: "20px" }}>
+            {profile.email && (
+              <p style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+                <HiOutlineMail /> {profile.email}
+              </p>
+            )}
+            {profile.phone && (
+              <p style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+                <HiPhone /> {profile.phone}
+              </p>
+            )}
+            {profile.linkedin && (
+              <p style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+                <BsLinkedin /> <a href={profile.linkedin} style={{ color: "#1ABC9C", textDecoration: "none" }} target="_blank" rel="noopener noreferrer">{profile.linkedin}</a>
+              </p>
+            )}
+            {profile.github && (
+              <p style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+                <BsGithub /> <a href={profile.github} style={{ color: "#1ABC9C", textDecoration: "none" }} target="_blank" rel="noopener noreferrer">{profile.github}</a>
+              </p>
+            )}
+            {profile.website && (
+              <p style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+                <BsGlobe /> <a href={profile.website} style={{ color: "#1ABC9C", textDecoration: "none" }} target="_blank" rel="noopener noreferrer">{profile.website}</a>
+              </p>
+            )}
           </div>
 
-          <div className="col-md-7 p-4">
-            <h4>About Me</h4>
-            <p>{about || "No description provided."}</p>
-            <hr />
+          {/* 🔹 Skills Section */}
+          <h3 style={{ marginTop: "20px", borderBottom: "1px solid #fff", paddingBottom: "5px" }}>Skills</h3>
+          {skills.map((skill, index) => (
+            <div key={index} style={{ marginBottom: "10px" }}>
+              <p style={{ marginBottom: "2px" }}>{skill.skill}</p>
+              <div style={{ width: "100%", backgroundColor: "#34495E", borderRadius: "5px", overflow: "hidden", height: "8px" }}>
+                <div style={{ width: `${skill.progress}%`, backgroundColor: "#1ABC9C", height: "100%" }}></div>
+              </div>
+            </div>
+          ))}
+        </div>
 
-            <h4>Experience</h4>
-            {experienceList.length > 0 ? (
-              experienceList.map((item, id) => (
-                <div key={id} className="d-flex py-2">
-                  <HiOfficeBuilding size={30} />
-                  <div className="px-3">
-                    <h5>{item.title}</h5>
-                    <p>{item.company} • {item.startMonth} {item.startYear} - {item.isWorking ? "Present" : `${item.endMonth} ${item.endYear}`}</p>
-                    <p>{item.location}</p>
-                    <p>{item.description}</p>
-                  </div>
-                </div>
-              ))
-            ) : <p>No work experience added.</p>}
-            <hr />
+        {/* Main Content - 2/3 */}
+        <div style={{ width: "66.67%", padding: "20px" }}>
+          <h3 style={{ borderBottom: "2px solid #007bff", paddingBottom: "5px" }}>About Me</h3>
+          <p style={{ textAlign: "justify" }}>{about}</p>
 
-            <h4>Education</h4>
-            {educationList.length > 0 ? (
-              educationList.map((item, id) => (
-                <div key={id} className="d-flex py-2">
-                  <GiGraduateCap size={40} />
-                  <div className="px-3">
-                    <h5>{item.institute}</h5>
-                    <p>{item.degree} • {item.fieldOfStudy}</p>
-                    <p>{item.startYear} - {item.endYear} • Grade: {item.grade}</p>
-                  </div>
-                </div>
-              ))
-            ) : <p>No education details added.</p>}
-          </div>
+          <h3 style={{ marginTop: "20px", borderBottom: "2px solid #007bff", paddingBottom: "5px" }}>Experience</h3>
+          {experienceList.map((exp, index) => (
+            <div key={index} style={{ marginBottom: "15px" }}>
+              <h4 style={{ marginBottom: "3px", color: "#007bff" }}>{exp.title}</h4>
+              <p style={{ fontSize: "14px", color: "#555" }}>
+                {exp.company} | {exp.startMonth} {exp.startYear} - {exp.isWorking ? "Present" : `${exp.endMonth} ${exp.endYear}`}
+              </p>
+              <p style={{ textAlign: "justify" }}>{exp.description}</p>
+            </div>
+          ))}
+
+          <h3 style={{ marginTop: "20px", borderBottom: "2px solid #007bff", paddingBottom: "5px" }}>Education</h3>
+          {educationList.map((edu, index) => (
+            <div key={index} style={{ marginBottom: "15px" }}>
+              <h4 style={{ marginBottom: "3px", color: "#007bff" }}>{edu.institute}</h4>
+              <p style={{ fontSize: "14px", color: "#555" }}>{edu.degree} - {edu.fieldOfStudy}</p>
+              <p>{edu.startYear} - {edu.endYear}</p>
+            </div>
+          ))}
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 }
 
