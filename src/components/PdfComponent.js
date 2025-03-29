@@ -1,6 +1,6 @@
 import React from "react";
 import { BsLinkedin, BsGithub, BsGlobe } from "react-icons/bs";
-import { HiLocationMarker, HiOfficeBuilding, HiOutlineMail, HiPhone } from "react-icons/hi";
+import { HiLocationMarker, HiOfficeBuilding, HiOutlineMail, HiPhone, HiBriefcase, HiAcademicCap } from "react-icons/hi";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { useSelector } from "react-redux";
@@ -33,6 +33,7 @@ function PdfComponent() {
       </button>
 
       <div id="divToPrint" style={{ width: "800px", backgroundColor: "#fff", display: "flex", border: "1px solid #ddd", boxShadow: "0px 4px 8px rgba(0,0,0,0.1)" }}>
+        
         {/* Sidebar - 1/3 */}
         <div style={{ width: "33.33%", backgroundColor: "#2C3E50", color: "#fff", padding: "20px", textAlign: "center" }}>
           {file && <img src={file} alt="Profile" style={{ width: "80%", borderRadius: "50%", marginBottom: "10px" }} />}
@@ -43,31 +44,11 @@ function PdfComponent() {
 
           {/* 🔹 Social Links */}
           <div style={{ marginTop: "20px" }}>
-            {profile.email && (
-              <p style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
-                <HiOutlineMail /> {profile.email}
-              </p>
-            )}
-            {profile.phone && (
-              <p style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
-                <HiPhone /> {profile.phone}
-              </p>
-            )}
-            {profile.linkedin && (
-              <p style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
-                <BsLinkedin /> <a href={profile.linkedin} style={{ color: "#1ABC9C", textDecoration: "none" }} target="_blank" rel="noopener noreferrer">{profile.linkedin}</a>
-              </p>
-            )}
-            {profile.github && (
-              <p style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
-                <BsGithub /> <a href={profile.github} style={{ color: "#1ABC9C", textDecoration: "none" }} target="_blank" rel="noopener noreferrer">{profile.github}</a>
-              </p>
-            )}
-            {profile.website && (
-              <p style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
-                <BsGlobe /> <a href={profile.website} style={{ color: "#1ABC9C", textDecoration: "none" }} target="_blank" rel="noopener noreferrer">{profile.website}</a>
-              </p>
-            )}
+            {profile.email && <p><HiOutlineMail /> {profile.email}</p>}
+            {profile.phone && <p><HiPhone /> {profile.phone}</p>}
+            {profile.linkedin && <p><BsLinkedin /> <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: "#1ABC9C", textDecoration: "none" }}>{profile.linkedin}</a></p>}
+            {profile.github && <p><BsGithub /> <a href={profile.github} target="_blank" rel="noopener noreferrer" style={{ color: "#1ABC9C", textDecoration: "none" }}>{profile.github}</a></p>}
+            {profile.website && <p><BsGlobe /> <a href={profile.website} target="_blank" rel="noopener noreferrer" style={{ color: "#1ABC9C", textDecoration: "none" }}>{profile.website}</a></p>}
           </div>
 
           {/* 🔹 Skills Section */}
@@ -84,10 +65,12 @@ function PdfComponent() {
 
         {/* Main Content - 2/3 */}
         <div style={{ width: "66.67%", padding: "20px" }}>
+          
           <h3 style={{ borderBottom: "2px solid #007bff", paddingBottom: "5px" }}>About Me</h3>
           <p style={{ textAlign: "justify" }}>{about}</p>
 
-          <h3 style={{ marginTop: "20px", borderBottom: "2px solid #007bff", paddingBottom: "5px" }}>Experience</h3>
+          {/* Experience Section with Icon */}
+          <h3 style={{ marginTop: "20px", borderBottom: "2px solid #007bff", paddingBottom: "5px" }}><HiBriefcase /> Experience</h3>
           {experienceList.map((exp, index) => (
             <div key={index} style={{ marginBottom: "15px" }}>
               <h4 style={{ marginBottom: "3px", color: "#007bff" }}>{exp.title}</h4>
@@ -98,7 +81,8 @@ function PdfComponent() {
             </div>
           ))}
 
-          <h3 style={{ marginTop: "20px", borderBottom: "2px solid #007bff", paddingBottom: "5px" }}>Education</h3>
+          {/* Education Section with Icon */}
+          <h3 style={{ marginTop: "20px", borderBottom: "2px solid #007bff", paddingBottom: "5px" }}><HiAcademicCap /> Education</h3>
           {educationList.map((edu, index) => (
             <div key={index} style={{ marginBottom: "15px" }}>
               <h4 style={{ marginBottom: "3px", color: "#007bff" }}>{edu.institute}</h4>
@@ -106,6 +90,7 @@ function PdfComponent() {
               <p>{edu.startYear} - {edu.endYear}</p>
             </div>
           ))}
+          
         </div>
       </div>
     </div>
