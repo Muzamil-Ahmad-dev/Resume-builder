@@ -1,8 +1,9 @@
 // components/HeroSection.js
 import React from "react";
+import { Link } from "react-router-dom"; // 👈 Make sure to import Link
 import Button from "react-bootstrap/Button";
 
-function HeroSection({ onStart }) {
+function HeroSection() {
   return (
     <section className="text-center py-5 bg-light">
       <div className="container">
@@ -17,9 +18,11 @@ function HeroSection({ onStart }) {
           style={{ maxHeight: '400px' }}
         />
         <br />
-        <Button variant="primary" size="lg" onClick={onStart}>
-          Get Started
-        </Button>
+        <Link to="/profile">
+          <Button variant="primary" size="lg">
+            Get Started
+          </Button>
+        </Link>
       </div>
     </section>
   );
